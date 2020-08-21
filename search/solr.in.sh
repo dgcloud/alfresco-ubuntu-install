@@ -34,10 +34,17 @@
 # Comment out SOLR_HEAP if you are using this though, that takes precedence
 SOLR_JAVA_MEM="-Xms512m -Xmx2192m"
 
-# Enable verbose GC logging
+# Enable verbose GC logging...
+#  * If this is unset, various default options will be selected depending on which JVM version is in use
+#  * For Java 8: if this is set, additional params will be added to specify the log file & rotation
+#  * For Java 9 or higher: each included opt param that starts with '-Xlog:gc', but does not include an
+#    output specifier, will have a 'file' output specifier (as well as formatting & rollover options)
+#    appended, using the effective value of the SOLR_LOGS_DIR.
+#
 GC_LOG_OPTS=""
+#GC_LOG_OPTS='-Xlog:gc*'  # (Java 9+)
 #GC_LOG_OPTS="-verbose:gc -XX:+PrintHeapAtGC -XX:+PrintGCDetails \
-#-XX:+PrintGCDateStamps -XX:+PrintGCTimeStamps -XX:+PrintTenuringDistribution -XX:+PrintGCApplicationStoppedTime"
+#  -XX:+PrintGCDateStamps -XX:+PrintGCTimeStamps -XX:+PrintTenuringDistribution -XX:+PrintGCApplicationStoppedTime"
 
 # These GC settings have shown to work well for a number of common Solr workloads
 #GC_TUNE="-XX:NewRatio=3 -XX:SurvivorRatio=4    etc.
@@ -76,14 +83,6 @@ if [ ! -d "/opt/alfresco/alf_data/solr6/solrhome/alfresco/conf" ]; then
   SOLR_OPTS="$SOLR_OPTS -Dcreate.alfresco.defaults=alfresco,archive"
 fi
 
-#JMX
-#SOLR_OPTS="${SOLR_OPTS} -Dcom.sun.management.jmxremote"
-#SOLR_OPTS="${SOLR_OPTS} -Dcom.sun.management.jmxremote.port=8018"
-#SOLR_OPTS="${SOLR_OPTS} -Dcom.sun.management.jmxremote.ssl=false"
-#SOLR_OPTS="${SOLR_OPTS} -Dcom.sun.management.jmxremote.authenticate=true"
-#SOLR_OPTS="${SOLR_OPTS} -Dcom.sun.management.jmxremote.password.file=/opt/alfresco/jmx/jmxremote.password"
-#SOLR_OPTS="${SOLR_OPTS} -Dcom.sun.management.jmxremote.access.file=/opt/alfresco/jmx/jmxremote.access"
-
 # Anything you add to the SOLR_OPTS variable will be included in the java
 # start command line as-is, in ADDITION to other options. If you specify the
 # -a option on start script, those options will be appended as well. Examples:
@@ -112,28 +111,39 @@ SOLR_HOME=/opt/alfresco/alf_data/solr6/solrhome
 SOLR_LOGS_DIR=/opt/alfresco/logs/solr6
 LOG4J_PROPS=/opt/alfresco/solr6/logs/log4j.properties
 
+# Enables log rotation, cleanup, and archiving during start. Setting SOLR_LOG_PRESTART_ROTATION=false will skip start
+# time rotation of logs, and the archiving of the last GC and console log files. It does not affect Log4j configuration.
+# This pre-startup rotation may need to be disabled depending how much you customize the default logging setup.
+#SOLR_LOG_PRESTART_ROTATION=true
+
 # Sets the port Solr binds to, default is 8983
 #SOLR_PORT=8983
 
 # Uncomment to set SSL-related system properties
 # Be sure to update the paths to the correct keystore for your environment
-#SOLR_SSL_KEY_STORE=/opt/alfresco/alf_data/keystore/ssl.keystore
-#SOLR_SSL_KEY_STORE_PASSWORD=kT9X6oe68t
-#SOLR_SSL_TRUST_STORE=/opt/alfresco/alf_data/keystore/ssl.truststore
-#SOLR_SSL_TRUST_STORE_PASSWORD=kT9X6oe68t
-#SOLR_SSL_NEED_CLIENT_AUTH=true
+#SOLR_SSL_KEY_STORE=/home/shalin/work/oss/shalin-lusolr/solr/server/etc/solr-ssl.keystore.jks
+#SOLR_SSL_KEY_STORE_PASSWORD=secret
+#SOLR_SSL_KEY_STORE_TYPE=JCEKS
+#SOLR_SSL_TRUST_STORE=/home/shalin/work/oss/shalin-lusolr/solr/server/etc/solr-ssl.keystore.jks
+#SOLR_SSL_TRUST_STORE_PASSWORD=secret
+#SOLR_SSL_TRUST_STORE_TYPE=JCEKS
+#SOLR_SSL_NEED_CLIENT_AUTH=false
 #SOLR_SSL_WANT_CLIENT_AUTH=false
 
 # Uncomment if you want to override previously defined SSL values for HTTP client
 # otherwise keep them commented and the above values will automatically be set for HTTP clients
 #SOLR_SSL_CLIENT_KEY_STORE=
 #SOLR_SSL_CLIENT_KEY_STORE_PASSWORD=
+#SOLR_SSL_CLIENT_KEY_STORE_TYPE=
 #SOLR_SSL_CLIENT_TRUST_STORE=
 #SOLR_SSL_CLIENT_TRUST_STORE_PASSWORD=
+#SOLR_SSL_CLIENT_TRUST_STORE_TYPE=
 
 # Settings for authentication
-#SOLR_AUTHENTICATION_CLIENT_CONFIGURER=
-#SOLR_AUTHENTICATION_OPTS=
+# Please configure only one of SOLR_AUTHENTICATION_CLIENT_CONFIGURER or SOLR_AUTH_TYPE parameters
+#SOLR_AUTHENTICATION_CLIENT_CONFIGURER="org.apache.solr.client.solrj.impl.PreemptiveBasicAuthConfigurer"
+#SOLR_AUTH_TYPE="basic"
+#SOLR_AUTHENTICATION_OPTS="-Dbasicauth=solr:SolrRocks"
 
 # Settings for ZK ACL
 #SOLR_ZK_CREDS_AND_ACLS="-DzkACLProvider=org.apache.solr.common.cloud.VMParamsAllAndReadonlyDigestZkACLProvider \

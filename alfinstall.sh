@@ -30,7 +30,7 @@ export JDBCPOSTGRES=postgresql-42.2.5.jar
 export JDBCMYSQLURL=https://dev.mysql.com/get/Downloads/Connector-J
 export JDBCMYSQL=mysql-connector-java-5.1.47.tar.gz
 
-export LIBREOFFICE=https://download.documentfoundation.org/libreoffice/stable/6.4.0/deb/x86_64/LibreOffice_6.4.0_Linux_x86-64_deb.tar.gz
+export LIBREOFFICE=https://download.documentfoundation.org/libreoffice/stable/7.0.0/deb/x86_64/LibreOffice_7.0.0_Linux_x86-64_deb.tar.gz
 export ALFRESCO_PDF_RENDERER=https://artifacts.alfresco.com/nexus/service/local/repositories/releases/content/org/alfresco/alfresco-pdf-renderer/1.1/alfresco-pdf-renderer-1.1-linux.tgz
 
 export ALFREPOWAR=https://downloads.loftux.net/public/content/org/alfresco/content-services-community/6.1.1/content-services-community-6.1.1.war
@@ -38,7 +38,7 @@ export ALFSHAREWAR=https://downloads.loftux.net/public/content/org/alfresco/shar
 export ALFSHARESERVICES=https://downloads.loftux.net/public/content/org/alfresco/alfresco-share-services/6.1.0/alfresco-share-services-6.1.0.amp
 export ALFMMTJAR=https://downloads.loftux.net/public/content/org/alfresco/alfresco-mmt/6.0/alfresco-mmt-6.0.jar
 
-export ASS_DOWNLOAD=https://downloads.loftux.net/public/content/org/alfresco/alfresco-search-services/1.3.0.1/alfresco-search-services-1.3.0.1.zip
+export ASS_DOWNLOAD=https://download.alfresco.com/cloudfront/release/community/SearchServices/1.4.3/alfresco-search-services-1.4.3.zip
 
 export LXALFREPOWAR=https://downloads.loftux.net/alfresco/alfresco-platform/LX101/alfresco-platform-LX101.war
 export LXALFSHAREWAR=https://downloads.loftux.net/alfresco/share/LX101/share-LX101.war
