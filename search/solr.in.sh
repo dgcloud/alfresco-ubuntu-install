@@ -77,7 +77,7 @@ SOLR_OPTS="$SOLR_OPTS -Dsolr.jetty.request.header.size=1000000 -Dsolr.jetty.thre
 
 SOLR_OPTS="$SOLR_OPTS -Dsolr.content.dir=/opt/alfresco/alf_data/solr6/content -Dsolr.model.dir=/opt/alfresco/alf_data/solr6/models -Ddata.dir.root=/opt/alfresco/alf_data/solr6/index"
 #SSL Options
-SOLR_OPTS="$SOLR_OPTS -Dsolr.allow.unsafe.resourceloading=true -Djavax.net.ssl.keyStoreType=JCEKS -Djavax.net.ssl.trustStoreType=JCEKS -Dsolr.ssl.checkPeerName=false"
+SOLR_OPTS="$SOLR_OPTS -Dalfresco.secureComms=none -Dsolr.allow.unsafe.resourceloading=true -Djavax.net.ssl.keyStoreType=JCEKS -Djavax.net.ssl.trustStoreType=JCEKS -Dsolr.ssl.checkPeerName=false"
 #Use only at the first startup
 if [ ! -d "/opt/alfresco/alf_data/solr6/solrhome/alfresco/conf" ]; then
   SOLR_OPTS="$SOLR_OPTS -Dcreate.alfresco.defaults=alfresco,archive"
